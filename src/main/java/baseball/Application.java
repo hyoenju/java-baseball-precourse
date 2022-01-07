@@ -12,9 +12,16 @@ public class Application {
         String randomNumber = generateRandomNumber();
         String userInput = getUserInputNumber();
 
-        while (!isValidateNumber(userInput)) {
-            System.out.println("[ERROR] 잘못된 값을 입력했습니다. 다시 입력해주세요.");
-            userInput = getUserInputNumber();
+        String[] randomArr = randomNumber.split("");
+        String[] userArr = userInput.split("");
+
+        int[] resultArr = countStrikesAndBalls(randomArr, userArr);
+        System.out.print(resultArr[0] + " 스트라이크 " );
+        System.out.print(resultArr[1] + " 볼 ");
+
+        if (resultArr[0] == 3) {
+            System.out.println("3개의 숫자를 모두 맞히셨습니다! 게임 종료");
+            System.out.println("게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요.");
         }
     }
 
@@ -66,5 +73,20 @@ public class Application {
         } else {
             return true;
         }
+    }
+
+    public static int[] countStrikesAndBalls(String[] RandomArr, String[] UserArr) {
+        int strikes = 0;
+        int balls = 0;
+
+        for (int i = 0; i <= 2; i++) {
+            if (RandomArr[i].equals(UserArr[i])) {
+                strikes++;
+            } else if (Arrays.asList(RandomArr).contains(UserArr[i])) {
+                balls++;
+            }
+        }
+
+        return new int[]{strikes, balls};
     }
 }
