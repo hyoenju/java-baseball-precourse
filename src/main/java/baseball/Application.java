@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 import nextstep.utils.Randoms;
+import nextstep.utils.Console;
 
 public class Application {
 
@@ -37,10 +38,14 @@ public class Application {
     }
 
     public static String getUserInputNumber() {
-        Scanner sc = new Scanner(System.in);
-
         System.out.print("숫자를 입력해주세요 : ");
-        return sc.next();
+        String userInput = Console.readLine();
+
+        if (!isValidateNumber(userInput)) {
+            System.out.print("[ERROR] 잘못된 값을 입력했습니다. ");
+            userInput = getUserInputNumber();
+        }
+        return userInput;
     }
 
     public static boolean isThreeDigits(String strNum) {
