@@ -17,8 +17,7 @@ public class Application {
         String[] userArr = userInput.split("");
 
         int[] resultArr = countStrikesAndBalls(randomArr, userArr);
-        System.out.print(resultArr[0] + " 스트라이크 " );
-        System.out.print(resultArr[1] + " 볼 ");
+        printStrikesAndBalls(resultArr[0], resultArr[1]);
 
         if (resultArr[0] == 3) {
             System.out.println("3개의 숫자를 모두 맞히셨습니다! 게임 종료");
@@ -93,5 +92,15 @@ public class Application {
         }
 
         return new int[]{strikes, balls};
+    }
+
+    public static void printStrikesAndBalls(int strikes, int balls) {
+        if (strikes > 0) {
+            System.out.print(strikes + " 스트라이크 ");
+        }
+        if (balls > 0) {
+            System.out.print(balls + " 볼 ");
+        }
+        System.out.println();
     }
 }
