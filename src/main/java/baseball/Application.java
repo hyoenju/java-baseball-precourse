@@ -11,17 +11,23 @@ public class Application {
 
     public static void main(String[] args) {
         String randomNumber = generateRandomNumber();
-        String userInput = getUserInputNumber();
+        String userInput;
+        int[] resultArr = {0, 0};
 
-        String[] randomArr = randomNumber.split("");
-        String[] userArr = userInput.split("");
+        System.out.println(randomNumber);
+        while (resultArr[0] < 3) {
+            userInput = getUserInputNumber();
 
-        int[] resultArr = countStrikesAndBalls(randomArr, userArr);
-        printStrikesAndBalls(resultArr[0], resultArr[1]);
+            String[] randomArr = randomNumber.split("");
+            String[] userArr = userInput.split("");
 
-        if (resultArr[0] == 3) {
-            System.out.println("3개의 숫자를 모두 맞히셨습니다! 게임 종료");
-            System.out.println("게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요.");
+            resultArr = countStrikesAndBalls(randomArr, userArr);
+            printStrikesAndBalls(resultArr[0], resultArr[1]);
+
+            if (resultArr[0] == 3) {
+                System.out.println("3개의 숫자를 모두 맞히셨습니다! 게임 종료");
+                System.out.println("게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요.");
+            }
         }
     }
 
