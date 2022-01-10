@@ -2,7 +2,6 @@ package baseball;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Scanner;
 import java.util.Set;
 import nextstep.utils.Randoms;
 import nextstep.utils.Console;
@@ -14,7 +13,7 @@ public class Application {
         String userInput;
         int[] resultArr = {0, 0};
 
-        System.out.println(randomNumber);
+//        System.out.println(randomNumber);
         while (resultArr[0] < 3) {
             userInput = getUserInputNumber();
 
@@ -23,21 +22,18 @@ public class Application {
 
             resultArr = countStrikesAndBalls(randomArr, userArr);
             printStrikesAndBalls(resultArr[0], resultArr[1]);
+        }
 
-            if (resultArr[0] == 3) {
-                System.out.println("3개의 숫자를 모두 맞히셨습니다! 게임 종료");
-                System.out.println("게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요.");
-            }
+        String replayInput = getInputReplayGameOrNot();
+        if (replayInput.equals("1")) {
+            main(new String[]{});
         }
     }
 
     public static String generateRandomNumber() {
-        int randomNumber;
-        while (true) {
+        int randomNumber = 0;
+        while (!isValidateNumber(Integer.toString(randomNumber))) {
             randomNumber = Randoms.pickNumberInRange(100, 999);
-            if (isValidateNumber(Integer.toString(randomNumber))) {
-                break;
-            }
         }
         return Integer.toString(randomNumber);
     }
@@ -68,9 +64,7 @@ public class Application {
 
     public static boolean isDuplicateNumbers(String[] numArr) {
         Set<String> numSet = new HashSet<>(Arrays.asList(numArr));
-        String[] resultArr = numSet.toArray(new String[0]);
-
-        return resultArr.length == numArr.length;
+        return numSet.toArray(new String[0]).length == numArr.length;
     }
 
     public static boolean isValidateNumber(String strNum) {
@@ -96,17 +90,32 @@ public class Application {
                 balls++;
             }
         }
-
         return new int[]{strikes, balls};
     }
 
     public static void printStrikesAndBalls(int strikes, int balls) {
-        if (strikes > 0) {
-            System.out.print(strikes + " 스트라이크 ");
+        if ((strikes == 0) && (balls == 0)) {
+            System.out.println("낫싱");
+        } else {
+            if (strikes > 0) {
+                System.out.print(strikes + "스트라이크 ");
+            }
+            if (balls > 0) {
+                System.out.print(balls + "볼 ");
+            }
+            System.out.println();
         }
-        if (balls > 0) {
-            System.out.print(balls + " 볼 ");
+        if (strikes == 3) {
+            System.out.println("3개의 숫자를 모두 맞히셨습니다! 게임 끝");
         }
-        System.out.println();
+    }
+
+    public static String getInputReplayGameOrNot() {
+        System.out.println("게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요.");
+        String userInput = Console.readLine();
+        if (!userInput.equals("1") && !userInput.equals("2")) {
+            getInputReplayGameOrNot();
+        }
+        return userInput;
     }
 }
