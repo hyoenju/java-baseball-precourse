@@ -1,19 +1,21 @@
 package baseball;
 
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Set;
+import java.util.HashSet;
+import java.util.stream.Collectors;
 import nextstep.utils.Randoms;
 import nextstep.utils.Console;
 
 public class Application {
 
     public static void main(String[] args) {
-        String randomNumber = generateRandomNumber();
-        String userInput;
         int[] resultArr = {0, 0};
+        String userInput;
 
-//        System.out.println(randomNumber);
+        String randomNumber = generateRandomNumber();
         while (resultArr[0] < 3) {
             userInput = getUserInputNumber();
 
@@ -30,15 +32,19 @@ public class Application {
         }
     }
 
-    public static String generateRandomNumber() {
-        int randomNumber = 0;
-        while (!isValidateNumber(Integer.toString(randomNumber))) {
-            randomNumber = Randoms.pickNumberInRange(100, 999);
+    static String generateRandomNumber() {
+        List<Integer> numList = new ArrayList<>();
+        while (numList.size() < 3) {
+            int randomNumber = Randoms.pickNumberInRange(0, 9);
+            while (numList.contains(randomNumber)) {
+                randomNumber = Randoms.pickNumberInRange(0, 9);
+            }
+            numList.add(randomNumber);
         }
-        return Integer.toString(randomNumber);
+        return numList.stream().map(String::valueOf).collect(Collectors.joining(""));
     }
 
-    public static String getUserInputNumber() {
+    static String getUserInputNumber() {
         System.out.print("숫자를 입력해주세요 : ");
         String userInput = Console.readLine();
 
@@ -49,11 +55,11 @@ public class Application {
         return userInput;
     }
 
-    public static boolean isThreeDigits(String strNum) {
+    static boolean isThreeDigits(String strNum) {
         return strNum.length() == 3;
     }
 
-    public static boolean isNumeric(String strNum) {
+    static boolean isNumeric(String strNum) {
         try {
             Integer.parseInt(strNum);
             return true;
@@ -62,24 +68,21 @@ public class Application {
         }
     }
 
-    public static boolean isDuplicateNumbers(String[] numArr) {
-        Set<String> numSet = new HashSet<>(Arrays.asList(numArr));
-        return numSet.toArray(new String[0]).length == numArr.length;
+    static boolean isNotDuplicateNumbers(String strNum) {
+        Set<String> numSet = new HashSet<>(Arrays.asList(strNum.split("")));
+        return numSet.toArray(new String[0]).length == strNum.length();
     }
 
-    public static boolean isValidateNumber(String strNum) {
+    static boolean isValidateNumber(String strNum) {
         if (!isNumeric(strNum)) {
             return false;
         } else if (!isThreeDigits(strNum)) {
             return false;
-        } else if (!isDuplicateNumbers(strNum.split(""))) {
-            return false;
-        } else {
-            return true;
-        }
+        } else
+            return isNotDuplicateNumbers(strNum);
     }
 
-    public static int[] countStrikesAndBalls(String[] RandomArr, String[] UserArr) {
+    static int[] countStrikesAndBalls(String[] RandomArr, String[] UserArr) {
         int strikes = 0;
         int balls = 0;
 
@@ -93,7 +96,7 @@ public class Application {
         return new int[]{strikes, balls};
     }
 
-    public static void printStrikesAndBalls(int strikes, int balls) {
+    static void printStrikesAndBalls(int strikes, int balls) {
         if ((strikes == 0) && (balls == 0)) {
             System.out.println("낫싱");
         } else {
@@ -110,7 +113,7 @@ public class Application {
         }
     }
 
-    public static String getInputReplayGameOrNot() {
+    static String getInputReplayGameOrNot() {
         System.out.println("게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요.");
         String userInput = Console.readLine();
         if (!userInput.equals("1") && !userInput.equals("2")) {
