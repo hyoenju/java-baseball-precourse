@@ -17,7 +17,7 @@ public class Application {
 
         String randomNumber = generateRandomNumber();
         while (resultArr[0] < 3) {
-            userInput = getUserInputNumber();
+            userInput = getInputNumber();
 
             String[] randomArr = randomNumber.split("");
             String[] userArr = userInput.split("");
@@ -26,7 +26,7 @@ public class Application {
             printStrikesAndBalls(resultArr[0], resultArr[1]);
         }
 
-        String replayInput = getInputReplayGameOrNot();
+        String replayInput = getInputReplayGameAgain();
         if (replayInput.equals("1")) {
             main(new String[]{});
         }
@@ -44,13 +44,13 @@ public class Application {
         return numList.stream().map(String::valueOf).collect(Collectors.joining(""));
     }
 
-    static String getUserInputNumber() {
+    static String getInputNumber() {
         System.out.print("숫자를 입력해주세요 : ");
         String userInput = Console.readLine();
 
         if (!isValidateNumber(userInput)) {
             System.out.print("[ERROR] 잘못된 값을 입력했습니다. ");
-            userInput = getUserInputNumber();
+            userInput = getInputNumber();
         }
         return userInput;
     }
@@ -113,11 +113,11 @@ public class Application {
         }
     }
 
-    static String getInputReplayGameOrNot() {
+    static String getInputReplayGameAgain() {
         System.out.println("게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요.");
         String userInput = Console.readLine();
         if (!userInput.equals("1") && !userInput.equals("2")) {
-            getInputReplayGameOrNot();
+            getInputReplayGameAgain();
         }
         return userInput;
     }
